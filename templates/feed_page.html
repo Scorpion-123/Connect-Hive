@@ -1,0 +1,256 @@
+{% extends "base.html" %}
+{% load static %}
+{% load filter %}
+
+{% block title %}
+
+<link rel = "stylesheet" href="{% static "css/feed_page.css" %}">
+
+{% endblock title %}
+
+
+
+{% block body %}
+
+    <div class="container gedf-wrapper">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="ml-1 mb-1">
+                            <img class="rounded-circle" style="border-radius: 50%;" width="95" src="{{ user_profile_info.profile_pic.url }}" alt="">
+                        </div>
+                        <div class="h5 pb-0 mb-0">@{{ user_profile_info.user.username }}</div>
+                        <div class="h7 text-muted ml-1">Fullname : {{ user_profile_info.user.first_name}} {{ user_profile_info.user.last_name }}</div>
+                        <div class="h7 pt-2">
+                            {{ user_profile_info.profile_desc }}
+                        </div>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <div class="h6 text-muted">Followers</div>
+                            <div class="h5">{{ user_profile_info.followers }}</div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="h6 text-muted">Following</div>
+                            <div class="h5">{{ user_profile_info.following }}</div>
+                        </li>
+                        <li class="list-group-item">No. of Posts : {{ no_of_posts }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-6 gedf-main">
+
+                <div class="card gedf-card">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">Make
+                                    a Text Post</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="images-tab" data-toggle="tab" role="tab" aria-controls="images" aria-selected="false" href="#images">Make An Image Post</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card-body">
+                            <div class="tab-content" id="myTabContent">
+
+                                    <form method="post" class="tab-pane fade show active" id="posts" role="tabpanel" aria-labelledby="posts-tab">
+                                        {% csrf_token %}
+
+                                        <div class="form-group">
+                                            <label class="sr-only" for="title">post</label>
+                                            <input type="text" class="form-control" id="post-title" name="post-text-title" placeholder="Post Title.." autocomplete="off" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="sr-only" for="message">post</label>
+                                            <textarea class="form-control" id="message" rows="3" name="post-text-message" placeholder="What are you thinking?" required></textarea>
+                                        </div>
+
+                                        <div class="btn-toolbar justify-content-between">
+                                            <div class="btn-group">
+                                                <button type="submit" class="btn btn-primary px-4">Post</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    
+                                    <form method="post" class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab" enctype="multipart/form-data">
+                                        {% csrf_token %}
+
+                                        <div class="form-group">
+                                            <label class="sr-only" for="title">post</label>
+                                            <input type="text" class="form-control" id="post-title" name="post-image-title" placeholder="Post Title.." autocomplete="off" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="sr-only" for="message">post</label>
+                                            <textarea class="form-control" id="message" rows="3" name="post-image-message" placeholder="What are you thinking?" required></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-file">
+                                                <input type="file" class="custom-file-input" name="post-image-image" id="customFile" accept=".png, .jpg, .jpeg">
+                                                <label class="custom-file-label" for="customFile">Upload image</label>
+                                            </div>
+                                        </div>
+                                        <div class="py-2"></div>
+
+                                        <div class="btn-toolbar justify-content-between">
+                                            <div class="btn-group">
+                                                <button type="submit" class="btn btn-primary px-4">Post</button>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                            </div>
+                    </div>
+                </div>
+                <!-- Post /////-->
+
+                {% comment %} From Here the Post Section Begins. {% endcomment %}
+                
+                {% for post in posts %}
+                    
+                    <div class="card gedf-card">
+                        <div class="card-header">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="mr-2">
+                                        <img class="rounded-circle" height="45" src="{{ post.belongs_to|get_image_url }}" alt="">
+                                    </div>
+                                    <div class="ml-2">
+                                        <div class="h5 m-0">
+                                            <a href="{% url "view_individual_user" post.belongs_to|get_userprofile_id %}">
+                                                @{{ post.belongs_to.username }}
+                                            </a>
+                                        </div>
+                                        <div class="h7 text-muted">{{ post.belongs_to.first_name }} {{ post.belongs_to.last_name}}</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="dropdown">
+                                        <button class="btn btn-link dropdown-toggle" type="button" id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <i class="fa fa-ellipsis-h"></i>
+                                        </button>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="gedf-drop1">
+                                            <div class="h6 dropdown-header">Configuration</div>
+                                            <a class="dropdown-item" href="#">Save</a>
+                                            <a class="dropdown-item" href="#">Hide</a>
+                                            <a class="dropdown-item" href="#">Report</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card-body">
+                            <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>{{ post.created_at }}</div>
+                            <a class="card-link" href="#">
+                                <h5 class="card-title">{{ post.post_title }}</h5>
+                            </a>
+
+                            {% if post.is_image_post %}
+                                <img src="{{ post.post_picture.url }}" height="300" width="400" class="img-responsive">
+                                <hr>
+                            {% endif %}
+
+                            <p class="card-text">
+                                {{ post.post_description }}
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{% url "like_post" post.id %}" class="card-link">
+                                
+                                {% comment %} The Red Color Indicates that the current user has already liked the post. {% endcomment %}
+                                {% if post|has_current_user_liked:request.user %}
+                                    <span style="color:red;">
+                                        <i class="fa fa-thumbs-up"></i> Like
+                                    </span>
+
+                                {% else %}
+                                    <i class="fa fa-thumbs-up"></i> Like
+
+                                {% endif %}
+
+                                <span class="badge rounded-pill badge-notification bg-danger">
+                                    <span style="color: white;">{{ post.no_of_likes }}</span>
+                                </span>
+                            </a>
+                            <a href="#" class="card-link"><i class="fa fa-comment"></i> Comment</a>
+                            <a href="#" class="card-link"><i class="fa fa-mail-forward"></i> Share</a>
+                        </div>
+                    </div>
+                
+                {% endfor %}
+                    
+            </div>
+
+            {% comment %} This is the Card Section present in the Right Side of the Page. {% endcomment %}
+            <div class="col-md-3">
+                <div class="card gedf-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Followers List</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">People Following You.</h6>
+                        
+                        {% for follower_user in user_profile_info.followers_list|get_data %}
+
+                            <li class="list-group-item">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <img src="{{ follower_user.profile_pic.url }}" width="50" alt="" class="media-object">
+                                        </div>
+                                        <div class="media-body pl-3">
+                                            <a href="{% url "view_individual_user" follower_user.id %}" style="text-decoration:none;">
+                                                <span class="date"><b>@{{ follower_user.user.username }}</b></span>
+                                            </a>
+                                            <span class="h7 text-muted ml-1">
+                                                <b>{{ follower_user.user.first_name}} {{ follower_user.user.last_name}}</b>
+                                            </span>
+
+                                        </div>
+                                    </div>
+                            </li>
+
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+                <div class="card gedf-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Following List</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">People You're Following.</h6>
+                            
+                            {% for following_user in user_profile_info.following_list|get_data %}
+
+                                <li class="list-group-item mb-1">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <img src="{{ following_user.profile_pic.url }}" width="50" alt="" class="media-object">
+                                        </div>
+                                        <div class="media-body pl-3">
+                                            <a href="{% url "view_individual_user" following_user.id %}" style="text-decoration:none;">
+                                                <span class="date"><b>@{{ following_user.user.username }}</b></span>
+                                            </a>
+                                            <span class="h7 text-muted ml-1">
+                                                <b>{{ following_user.user.first_name}} {{ following_user.user.last_name}}</b>
+                                            </span> 
+
+                                            <a href="{% url "unfollow_user" following_user.id %}">
+                                                <button class="btn btn-danger mt-3 ml-4">Unfollow</button>
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                </li>
+
+                            {% endfor %}
+                            
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock body %}

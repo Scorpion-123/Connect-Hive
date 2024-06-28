@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+
+<link rel="stylesheet" href="{% static "css/friend_list.css" %}">
+
+{% endblock title %}
+
+
+{% block body %}
+
+<div class="container pl-4">
+    <div class="alert alert-success" role="alert">
+        New Friends Suggestion for you -check it out!
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="people-nearby">
+              
+                {% for user in all_user_list %}
+
+                    <div class="nearby-user">
+                        <div class="row">
+                        <div class="col-md-2 col-sm-2">
+                            <img src="{{ user.profile_pic.url }}" alt="user" class="profile-photo-lg">
+                        </div>
+                        <div class="col-md-7 col-sm-7">
+                            <h5><a href="{% url "view_individual_user" user.id %}" class="profile-link">@{{ user.user.username }}</a></h5>
+                            <p>{{ user.user.first_name }} {{user.user.last_name }}</p>
+                            <p class="text-muted">{{ user.profile_desc|truncatechars:50 }}</p>
+                        </div>
+                        <div class="col-md-3 col-sm-3">
+                            <a href="{% url "follow_user" user.id %}">
+                                <button class="btn btn-primary pull-right">Add Friend</button>
+                            </a>
+                        </div>
+                        </div>
+                    </div>
+                
+                {% endfor %}
+
+            </div>
+    	</div>
+	</div>
+</div>
+
+{% endblock body %}

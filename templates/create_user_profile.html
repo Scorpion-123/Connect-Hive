@@ -1,0 +1,132 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="{% static "css/create_user_profile.css" %}">
+
+    <title>Create User Profile!</title>
+  </head>
+  <body>
+
+    {% if messages %}
+    
+        {% for message in messages %}
+                
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>{{ message.tags|title }} | </strong>{{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+    <div class="container bootstrap snippets bootdey pt-3">
+        <div class="row ng-scope">
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body text-center">
+                        <div class="pv-lg">
+                            <img class="center-block img-responsive img-circle img-thumbnail thumb96" src="{% static "image/images.jpg" %}" alt="Contact">
+                        </div>
+                        <h3 class="m0 text-bold">@{{ request.user.username }}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="h4 text-center">User <span style="color: blue;">Profile </span>Information</div>
+                        <div class="row pv-lg">
+                            <div class="col-lg-2"></div>
+                            <div class="col-lg-8">
+
+                                <form class="form-horizontal ng-pristine ng-valid" action="/create_user_profile/" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+
+                                    <div class="form-group pb-3">
+                                        <label class="col-sm-2 control-label" for="inputContact1">First Name</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="inputContact1" name='user-profile-fname' type="text" placeholder="Audrey" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group pb-3">
+                                        <label class="col-sm-2 control-label" for="inputContact2">Last Name</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="inputContact2" name="user-profile-lname" type="text" placeholder="Hunt" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group pb-3">
+                                        <label class="col-sm-3 control-label" for="inputContact4">User Description</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" name="user-profile-desc" rows="3" id="inputContact4" type="text" required>
+                                            </textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group pb-3">
+                                        <label class="col-sm-5 control-label" for="inputContact5">Upload Profile Picture</label>
+                                        <div class="col-sm-10">
+                                            <input type="file" class="custom-file-input" name="user-profile-image" id="customFile" accept=".png, .jpg, .jpeg" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group pb-4 pt-3 mt-2">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button class="btn btn-info px-4" type="submit">
+                                                Update User Profile <i class="fa-solid fa-user px-1"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/jquery-migrate-3.0.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+    <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'js/jquery.stellar.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/aos.js' %}"></script>
+    <script src="{% static 'js/jquery.animateNumber.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap-datepicker.js' %}"></script>
+    <script src="{% static 'js/jquery.timepicker.min.js' %}"></script>
+    <script src="{% static 'js/scrollax.min.js' %}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+    <script src="{% static 'js/google-map.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    
+  </body>
+</html>

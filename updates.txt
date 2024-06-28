@@ -1,0 +1,17 @@
+1. Feed of the social media is built.
+2. User Authentication and SignUp process has also been setup.
+3. User Profiles with user data and profile picture has been incorporated.
+4. Posts are created, and post forms are made where user can post text/image post with description.
+**
+4. Implimented the procedure to Follow and Unfollow users.
+5. Implimented the Follower Section where the current user can find all those users whom he/she has not followed yet.
+6. Displaying the Follower and the Following List on the feed_page.
+7. Created Dynamic Individual profile view page in order to view all the user profiles present.
+8. Created Custom Advanced Current User Profile, from where he can see/delete his previous posts and also can modify his/her personal details.
+9. Implimented the Method to Like/Dislike The Post from any user. (MOST HIGHLIGHTING)
+10. Made Suitable FrontEnd(implimented concept of Django Filter) to Handel and show the Like Count, Like Status of a Post.
+('RED' indictes the current user has liked the post, whereas 'BLUE' indicates the user has not yet liked the post.)
+
+
+** 
+11. Created the Process of User SignUp through custom bootstrap template, and also created the UserProfile model for the same user.
